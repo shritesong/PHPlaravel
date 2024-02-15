@@ -17,15 +17,24 @@ class MyModel extends Model
         return $a + $b;
     }
 
-    static function queryUsers($uid=1){
+    static function queryUsers($uid=null){
         // $users = DB::select('select * from UserInfo where uid = ? or ? ',[$uid,$uid]);
         // return $users;
-
-        return DB::table('UserInfo')
-                ->join('live','userInfo.uid','=','live.uid')
-                ->join('house','live.hid','=','house.hid')
-                ->where('UserInfo.uid',$uid)
-                ->get();
+        if ($uid){
+        // return DB::table('UserInfo')
+        //         ->join('live','userInfo.uid','=','live.uid')
+        //         ->join('house','live.hid','=','house.hid')
+        //         ->where('UserInfo.uid',$uid)
+        //         ->get();
+                return UserInfo::where('uid',$uid)->get();
+            }else{
+                // return DB::table('UserInfo')
+                // ->join('live','userInfo.uid','=','live.uid')
+                // ->join('house','live.hid','=','house.hid')
+                // // ->where('UserInfo.uid',$uid)
+                // ->get();
+                return UserInfo::all();
+            }
     }
     static function updatePassword($uid, $password){
         DB::update("update UserInfo set pwd = ? where uid = ?",
